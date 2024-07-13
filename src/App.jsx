@@ -6,6 +6,7 @@ import Login from './components/Auth/Login';
 import axios from 'axios';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Register from './components/Auth/Register';
 
 function App() {
   useEffect(() => {
@@ -43,6 +44,7 @@ function App() {
       <Routes>
         <Route path="/home" element={<Home />} />
         <Route path="/" element={<Login />} />
+        <Route path="/reg" element={<Register />} />
       </Routes>
     </BrowserRouter>
   );

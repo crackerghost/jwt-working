@@ -3,23 +3,33 @@ import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-function Login() {
+function Register() {
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
+  const [name, setName] = useState("");
+  const [kyc, setKyc] = useState("");
+  const [role, setRole] = useState("");
+
+
 
   async function handleSubmit(e) {
     e.preventDefault();
     try {
-      const response = await axios.post("/verifyLogin", {
+      const response = await axios.post("/register", {
+        name,
+        kyc,
         email,
         pass,
+        role
+        
+       
       });
 
-      if (response.status === 200) {
+      if (response.status === 201) {
         
       
         localStorage.setItem("token" , response.data.token)
-        toast.success("Login successful!", {
+        toast.success("Register Success!", {
           position: "top-center",
           autoClose: 1000,
           onClose: () => {
@@ -27,36 +37,23 @@ function Login() {
           },
         });
       } else if (response.status === 400) {
-        toast.error("Invalid login credentials. Please try again.", {
+        toast.error("User Already Exists", {
           position: "top-center",
           autoClose: 1000
         });
-      } 
-      else {
+      } else {
         toast.error(`Unexpected status code: ${response.status}`, {
           position: "top-center",
           autoClose: 1000
         });
       }
     } catch (error) {
-      if (error.response && error.response.status === 400) {
-        toast.error("Invalid login credentials. Please try again.", {
-          position: "top-center",
-          autoClose: 1000
-        });
-      }
-      else if (error.response.status === 401) {
-        toast.error("User Not Found!", {
-          position: "top-center",
-          autoClose: 1000
-        });
-      }
-      else {
+ 
         toast.error("An error occurred. Please try again later.", {
           position: "top-center",
           autoClose: 1000
         });
-      }
+      
       console.error(error);
     }
   }
@@ -68,6 +65,36 @@ function Login() {
         onSubmit={handleSubmit}
       >
         <h1 className="text-white text-2xl">Login Page</h1>
+        
+        <input
+          type="text"
+          id="name"
+          placeholder="Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          className="mb-2 p-2 rounded"
+        />
+         <input
+          type="text"
+          id="kyc"
+          placeholder="Verification ID"
+          value={kyc}
+          onChange={(e) => setKyc(e.target.value)}
+          className="mb-2 p-2 rounded"
+        />
+          <select
+  id="role"
+  value={role}
+  onChange={(e) => setRole(e.target.value)}
+  className="mb-2 p-2 rounded"
+>
+  <option value="">Account Type</option>
+  <option value="Seller">Seller</option>
+  <option value="Buyer">Buyer</option>
+
+  {/* Add more options as needed */}
+</select>
+
         <input
           type="text"
           id="email"
@@ -96,4 +123,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Register;
