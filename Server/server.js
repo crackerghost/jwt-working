@@ -7,7 +7,15 @@ const jwt = require("jsonwebtoken");
 const secretKey = "rajsingh123@";
 const connectToDatabase = require("./Models/db");
 const regModel = require('./Models/regModel'); // Import RegModel
+const cors = require('cors');
 
+const corsOptions = {
+  origin: 'https://kuda-three.vercel.app/', // Allow only this origin
+  methods: ['GET', 'POST'],      // Allow only GET and POST requests
+  allowedHeaders: ['Content-Type'], // Allow only Content-Type header
+};
+
+app.use(cors(corsOptions));
 
 
 connectToDatabase();
